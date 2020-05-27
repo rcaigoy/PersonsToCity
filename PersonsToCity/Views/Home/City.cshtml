@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "City";
+}
+
+<h2>City</h2>
+
+@ViewBag.City.CityName
+<br />
+
+<a href="@Url.Action("AddPerson", "Home")">Add Person</a>
+
+<ul>
+    @foreach (var person in ViewBag.City.Persons)
+    {
+        <li><a href="@Url.Action("Person", "Home")?PersonId=@person.PersonId">@person.PersonName</a></li>
+    }
+
+</ul>

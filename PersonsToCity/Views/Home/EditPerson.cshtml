@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "EditPerson";
+}
+
+<h2>Edit Person</h2>
+
+<label>Name</label>
+<input type="text" id="PersonNameInput" value="@ViewBag.Person.PersonName" />
+<br />
+
+<label>City</label>
+<select id="CityIdSelect">
+    @foreach (var city in ViewBag.CityList)
+    {
+        if (city.CityId == ViewBag.Person.CityId)
+        {
+            <option value="@city.CityId" selected>@city.CityName</option>
+        }
+        else
+        {
+        <option value="@city.CityId">@city.CityName</option>
+        }
+    }
+</select>
+
+
+<button id="SubmitButton">Submit</button>
+<br />
+<button id="DeleteButton">Delete</button>
+
+@section scripts {
+    <script>
+    $(document).ready(function () {
+        $('#SubmitButton').on('click', function () {
+            var PersonName = PersonNameInput.value;
+            var CityId = CityIdSelect.value;
+            console.log(PersonName);
+            console.log(CityId);
+
+            $.ajax({
+                url: '@Url.Action("UpdatePerson", "Home")'
+                    + '?PersonId=' + '@ViewBag.Person.PersonId'
+                    + '&PersonName=' + PersonName
+                    + '&CityId='+ CityId,
+                type: 'put',
+                success: function (data) {
+                    window.location.href = '@Url.Action("Person", "Home")?PersonId=' + data.PersonId;
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert('Error');
+                }
+            });
+        });
+
+        $('#DeleteButton').on('click', function () {
+            var confirmation = window.confirm('Are you sure you want to delete this user?');
+
+            if (confirmation) {
+                //if yes
+                $.ajax({
+                    url: '@Url.Action("DeletePerson", "Home")?PersonId=@ViewBag.Person.PersonId',
+                    type: 'delete',
+                    success: function (data) {
+                        window.location.href = '@Url.Action("City", "Home")?CityId=@ViewBag.Person.CityId';
+                    },
+                    error: function (data) {
+                        console.log(data);
+                        alert('Error');
+                    }
+                });
+
+            }
+            //if no, skip to here
+
+        });
+    });
+    </script>
+
+}

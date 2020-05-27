@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "AddPerson";
+}
+
+<h2>Add Person</h2>
+
+<label>Name</label>
+<input type="text" id="PersonNameInput" />
+<br />
+
+<label>City</label>
+<select id="CityIdSelect">
+    @foreach( var city in ViewBag.CityList)
+    {
+        <option value="@city.CityId">@city.CityName</option>
+    }
+</select>
+
+
+<button id="SubmitButton">Submit</button>
+
+@section scripts { 
+<script>
+    $(document).ready(function () {
+        $('#SubmitButton').on('click', function () {
+            var PersonName = PersonNameInput.value;
+            var CityId = CityIdSelect.value;
+            console.log(PersonName);
+            console.log(CityId);
+
+            $.ajax({
+                url: '@Url.Action("CreatePerson", "Home")?PersonName=' + PersonName + '&CityId=' + CityId,
+                type: 'post',
+                success: function (data) {
+                    window.location.href = '@Url.Action("Person", "Home")?PersonId=' + data.PersonId;
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert('Error');
+                }
+            });
+        });
+    });
+</script>
+
+}

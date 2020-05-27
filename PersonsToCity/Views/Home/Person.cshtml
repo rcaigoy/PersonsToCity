@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Person";
+}
+
+<h2>Person</h2>
+
+<a href="@Url.Action("EditPerson", "Home")?PersonId=@ViewBag.Person.PersonId">Edit Person</a>
+<br />
+
+
+@ViewBag.Person.PersonName
+<br />
+
+<a href="@Url.Action("City", "Home")?CityId=@ViewBag.Person.CityId">@ViewBag.Person.CityName</a>
+
+

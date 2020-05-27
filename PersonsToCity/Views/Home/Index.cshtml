@@ -1,0 +1,8 @@
+﻿
+
+<ul>
+    @foreach(var city in ViewBag.CityList)
+    {
+        <li><a href="@Url.Action("City","Home")?CityId=@city.CityId">@city.CityName</a></li>
+    }
+</ul>
